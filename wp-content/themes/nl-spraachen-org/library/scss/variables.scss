@@ -1,0 +1,271 @@
+/* =============================================================================
+   Variables
+   ========================================================================== */
+.text-indent {
+    text-indent:-9999px;
+    display:block;
+    overflow:hidden;
+}
+
+
+/*** Fixed Font-Sizes ***/
+$font-small:12px;
+$font-normal:14px;
+$font-larger:16px;
+$font-large:18px;
+/* Colors */
+$foo:red;
+$bg-color:#F2F2F2;
+$bg-panel:#e5e5e4;
+$bd-panel: #D9D9D9;
+
+
+$info-graphic-level-1:#7EA0C5;
+
+
+$brand-primary:#2466a8;
+$brand-secondary: #4385c8;
+$brand-complementary: #fcf8e3;
+$brand-success:#21A356;
+
+
+   $brand-info:#7EA0C5;
+   $brand-warning:#F1820D;
+   $brand-danger:#DB221C;
+   $body-bg:#fff;
+   $text-color:#333;
+   $light-text-color:#999;
+   $light-gray:#ccc;
+   $dark-gray:#e5e5e4;
+   $link-color:$brand-primary;
+   $border-color:$light-gray;
+
+/*** Info Graphic ***/
+$bg-level_c2:$brand-primary;
+$bg-level_c1:lighten( $brand-primary, 20% );
+$bg-level_b2:#BDCCDD;
+$bg-level_b1:lighten( $bg-level_b2, 5% );
+$bg-level_a2:lighten( $bg-level_b1, 5% );
+$bg-level_a1:desaturate( $bg-level_a2, 25%  );
+
+
+/**Todo diese Funktion auf reference übertragen ***/
+    @mixin font-color($bg) {
+        @if lightness($bg) < 75% {
+            color:$white !important;
+        }
+        @else {
+            color:$brand-primary;
+        }
+    }
+
+    @mixin bg-color($bg){
+        background-color: $bg;
+        @include font-color($bg)
+    }
+
+$white: #fff;
+$bg-inverse: #000;
+
+$bg-footer-sitemap:#575757;
+$footer-links:#757575;
+
+/** Heights & Widths **/
+$bannerHeight:200px;
+$carouselHeight:398px;
+
+/* Circles & Rectangles */
+$circle-radius:50%;
+
+@mixin circle($item) {
+    width: $item;
+    height: $item;
+    line-height: $item;
+    @include border-radius ($item/2);
+    }
+/* Transpareny */
+$half-transparent:0.5;
+$opak: 1;
+
+/* Margins & Paddings */
+$outer-grid:1em;
+
+/* Mediaqueries breakpoints */
+$screen-xs: 480px;
+$screen-sm: 768px;
+$screen-md: 992px;
+$screen-lg: 1200px;
+
+/*** Mixins & Placeholders ***/
+
+@mixin headline-style ($weight,$mg-top, $mg-bottom){
+    font-family:'Titillium Web', Arial,Helvetica, sans-serif !important;
+    text-rendering: optimizeLegibility;
+    text-transform: uppercase;
+    font-weight:$weight;
+    margin-top: $mg-top;
+    margin-bottom: $mg-bottom;
+}
+
+@mixin button-style ($r, $pd-vert, $pd-hor, $font) {
+    -webkit-border-radius: $r;
+    border-radius: $r;
+    border-width: 0;
+    box-shadow: none;
+    padding: $pd-vert $pd-hor;
+    font-size: $font;
+    line-height: 1;
+}
+
+@mixin active-style {
+	background:$brand-primary;
+	color:$white;
+    }
+
+@mixin icon-style ($cnt, $pd-ri, $op, $mg-le, $size) {
+    font-family: 'FontAwesome';
+    content: $cnt;
+    padding-right: $pd-ri;
+    opacity: $op;
+    margin-left:$mg-le;
+    font-size:$size;
+}
+    
+@mixin carousel-indicator-style($box-size,$bg,$bd,$indent,$color,$align) {
+    height: $box-size;
+    width: $box-size;
+    line-height: $box-size;
+    background: $bg;
+    border: $bd;
+    text-indent: $indent;
+    color: $color;
+    text-align: $align;
+    }
+@mixin carousel-control-style ($bg,$bd,$size,$weight,$box-size,$mg-t,$op,$pos,$top,$left,$align,$color,$bg-img){
+    background: $bg;
+    border: $bd;
+    font-size: $size;
+    font-weight: $weight;
+    height: $box-size;
+    line-height: $box-size - 10px;
+    margin-top: $mg-t;
+    opacity: $op;
+    position: $pos;
+    top: $top;
+    left: $left;
+    text-align: $align;
+    width: $box-size;
+    color: $color;
+    background-image: none;
+    text-shadow: none;
+    }
+@mixin carousel-caption($bg,$pos,$top,$left,$align,$z) {
+    background: $bg;
+    position: $pos;
+    top: $top;
+    left: $left;
+    width: inherit;
+    text-align: $align;
+    text-shadow: none;
+    z-index: $z;
+    }
+@mixin bubble-style {
+    border: $light-gray 1px solid;
+    padding: 14px 12px 30px 12px;
+    position: relative;
+    }
+@mixin box-sizing {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+@mixin border-radius ($r){
+    -webkit-border-radius: $r;
+    border-radius: $r;
+}
+@mixin shadow {
+    -webkit-box-shadow: 0 0 2px 1px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 0 2px 1px rgba(0,0,0,.2);
+    box-shadow: 0 0 2px 1px rgba(0,0,0,.2);
+}
+
+@mixin panel-style {
+    @include shadow-panel;
+    background: $bg-panel;
+    border-color: $dark-gray;
+    border-style: solid;
+    border-width: 1px;
+    padding: 1.25em;
+    position: relative;
+    margin-bottom: 2em;
+    }
+@mixin panel-more-link {
+     background: #f2f2f2 url('../img/bg_panel.png') left bottom no-repeat;
+    width: 63px;
+    height: 60px;
+    display: block;
+    text-indent: -100px;
+    overflow: hidden;
+    top: -5px;
+    right: -5px;
+    position: absolute;
+    text-decoration: none;
+    }
+@mixin navigation-primary {
+    color: #fff;
+    background: $brand-primary;
+}
+
+@mixin icon-button ($height) {
+    @extend .text-indent;
+    height:$height;
+    }
+
+
+@mixin form-alert($border-color, $background-color, $color){
+border: 2px solid $border-color;
+background:$background-color;
+color:$color;
+}
+
+@mixin navigation-secondary {
+    color: #fff;
+    background: $brand-secondary;
+    height: 100%;
+}
+
+@mixin footer-icon {
+	font-family: 'Fontawesome';
+	content:'\f0da';
+	margin-right: 1em;
+    }
+
+@mixin pagination-link {
+    color: $brand-primary;
+    font-weight: bold;
+    border-collapse: #ccc;
+    }
+
+@mixin caption-style {
+    color:$brand-primary;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.7);
+    font-size: 120%;
+    line-height: 1.2;
+    text-align: center;
+    padding:10% 5%;
+    min-height: 25%;
+    }
+/*** Transitions & Animations ***/
+@mixin transition ($item,$duration, $easing) {
+    -webkit-transition: $item $duration $easing;
+    -moz-transition: $item $duration $easing;
+    -ms-transition: $item $duration $easing;
+    -o-transition: $item $duration $easing;
+    transition: $item $duration $easing;
+}
+
+/**** Filter ****/
+@mixin gray-filter($percent) {
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale($percent);
+}
