@@ -1,0 +1,22 @@
+/* =============================================================================
+   Variables
+   ========================================================================== */
+/* line 4, ../scss/variables.scss */
+.text-indent {
+  text-indent: -9999px;
+  display: block;
+  overflow: hidden;
+}
+
+/*** Fixed Font-Sizes ***/
+/* Colors */
+/*** Info Graphic ***/
+/**Todo diese Funktion auf reference übertragen ***/
+/** Heights & Widths **/
+/* Circles & Rectangles */
+/* Transpareny */
+/* Margins & Paddings */
+/* Mediaqueries breakpoints */
+/*** Mixins & Placeholders ***/
+/*** Transitions & Animations ***/
+/**** Filter ****/
