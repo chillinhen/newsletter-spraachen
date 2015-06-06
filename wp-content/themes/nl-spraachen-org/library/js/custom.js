@@ -3,6 +3,9 @@ jQuery(document).ready(function($) {
     //switch justified nav
     $('.row.navigation ul.nav.navbar-nav').addClass('nav-tabs').addClass('nav-justified').removeClass('navbar-nav');
 
+	//Login/Register Dialog
+        $('input[type="submit"],input[type="reset"]').addClass('btn').addClass('btn-inverse');
+      
 
     //change language choose text
     $('.lang-item-de a').text('DE');
@@ -26,7 +29,8 @@ jQuery(document).ready(function($) {
 	    $(this).children('.carousel-control').remove();
 	}
     });
-
+	
+	
 
     //collapse event-tables
     //collapse items
@@ -111,7 +115,7 @@ jQuery(document).ready(function($) {
 	$(this).parent('tr').next('tr').addClass('transparent');
     });
 
-    $('.sidebar article ul li').each(function() {
+    $('.sidebar article ul li, .sidebar .widget:not(.widget_nav_menu) ul li').each(function() {
 	$(this)
 		.addClass('clearfix')
 		.css('list-style', 'none')
@@ -119,6 +123,12 @@ jQuery(document).ready(function($) {
 		.prepend('<i class="fa fa-caret-right fa-large"></i>');
 	;
     });
+    $('.sidebar .menu li').each(function(){
+        $(this).addClass('btn').addClass('btn-primary');
+    });
+    
+    
+    
 
 
     //$('.footer-sitemap ul.footer-main-menu > li').addClass('col-md-2');

@@ -1,77 +1,53 @@
 <?php get_header(); ?>
-
+			
 <div class="row site-content clearfix posts thin-line">
-
-    <div class="col-md-8 clearfix" role="main">
-
-        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-
-                <article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
-
-                    <header>
-
-                        <a href="<?php the_permalink() ?>" title="<?php the_title_attribute(); ?>"><?php the_post_thumbnail('wpbs-featured'); ?></a>
-
-                        <div class="page-header"><h1 class="h2"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h1></div>
-
-                        
-
-                    </header> <!-- end article header -->
-                            
-                    <section class="post_content clearfix">
-                                <?php if (has_post_thumbnail()) : // check if the post has a Post Thumbnail assigned to it.?><div class="thumbnail">
-                                    <?php the_post_thumbnail('wpbs-featured'); ?>
-                                    </div><?php endif; ?>
-
-
-
-                                <p class="meta"><?php _e("Posted", "spraachen-org"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '', '', FALSE); ?></time> <?php _e("by", "wpbootstrap"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "wpbootstrap"); ?> <?php the_category(', '); ?>.</p>
-
-                                <?php the_content(__("Read more &raquo;", "spraachen-org")); ?>
-                            </section> <!-- end article section -->
-
-                    <footer>
-
-                        <p class="tags"><?php the_tags('<span class="tags-title">' . __("Tags", "spraachen-org") . ':</span> ', ' ', ''); ?></p>
-
-                    </footer> <!-- end article footer -->
-
-                </article> <!-- end article -->
-
-            <?php endwhile; ?>	
-
-            <?php if (function_exists('wp_bootstrap_page_navi')) { // if expirimental feature is active ?>
-
-                <?php wp_bootstrap_page_navi(); // use the page navi function ?>
-
-            <?php } else { // if it is disabled, display regular wp prev & next links ?>
-                <nav class="wp-prev-next">
-                    <ul class="pager">
-                        <li class="previous"><?php next_posts_link(_e('&laquo; Older Entries', "spraachen-org")) ?></li>
-                        <li class="next"><?php previous_posts_link(_e('Newer Entries &raquo;', "spraachen-org")) ?></li>
-                    </ul>
-                </nav>
-            <?php } ?>		
-
-        <?php else : ?>
-
-            <article id="post-not-found">
-                <header>
-                    <h1><?php _e("Not Found", "spraachen-org"); ?></h1>
-                </header>
-                <section class="post_content">
-                    <p><?php _e("Sorry, but the requested resource was not found on this site.", "spraachen-org"); ?></p>
-                </section>
-                <footer>
-                </footer>
-            </article>
-
-        <?php endif; ?>
-
-    </div> <!-- end #main -->
-
-    <?php get_sidebar(); // sidebar 1 ?>
-
-</div> <!-- end #content -->
+	<div class="col-md-8 clearfix" role="main">
+				<?php if (current_user_can('read')) : ?>
+					<!-- show posts -->
+					<?php query_posts(array('category__not_in' => array(21)));?>
+					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+					
+					 <?php get_template_part('partials/article','page');?>	
+					
+					<?php endwhile; ?>	
+					
+					<?php get_template_part('partials/paging');?>	
+					
+					<?php else : ?>
+					
+					<?php get_template_part('partials/article','404');?>	
+					
+					<?php endif; ?>
+				<?php else : ?>
+				<?php
+				$args = array(
+					'posts_per_page' => 1,
+					'category_name' => 'welcome',
+					'orderby' => 'date',
+					'order' => 'DESC'
+				);
+				$custom_query = new WP_Query( $args );
+				
+				if ( $custom_query->have_posts() ):
+				    while ( $custom_query->have_posts() ) :
+				        $custom_query->the_post();
+				
+				        #echo $message . '<hr/>';
+				       get_template_part('partials/article','list');
+				
+				    endwhile;
+				else:
+				    get_template_part('partials/article','404');
+				endif;
+				
+				wp_reset_query();
+				
+				?>
+				<?php endif; ?>
+				</div> <!-- end #main -->
+    
+				<?php get_sidebar(); // sidebar 1 ?>
+    
+			</div> <!-- end #content -->
 
 <?php get_footer(); ?>

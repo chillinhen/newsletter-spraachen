@@ -4,10 +4,14 @@ add_action('after_setup_theme', 'nl_spraachen_theme_setup');
 
 function nl_spraachen_theme_setup() {
     // Add Translation Option
-    load_theme_textdomain('spraachen-org', get_stylesheet_directory() . '/languages');
+    //load_theme_textdomain('nl-spraachen-org', get_stylesheet_directory() . '/languages');
+    load_theme_textdomain('nl-spraachen-org', get_template_directory() . '/languages');
+
 
     $locale = get_locale();
     $locale_file = get_stylesheet_directory_uri() . "/languages/$locale.php";
+
+
     //init styles
     add_action('wp_enqueue_styles', 'my_styles');
 
@@ -23,10 +27,9 @@ function nl_spraachen_theme_setup() {
             wp_enqueue_style('custom-bootstrap');
             wp_enqueue_style('bootstrap-theme');
             wp_enqueue_style('qtip');
-
-            wp_enqueue_style('myStyle');
             wp_enqueue_style('googlefonts');
             wp_enqueue_style('fontawseome');
+            wp_enqueue_style('myStyle');
         }
     }
     add_action('wp_enqueue_scripts', 'my_scripts');
@@ -57,17 +60,20 @@ function nl_spraachen_theme_setup() {
         }
     }
     add_action('wp_enqueue_scripts', 'old_wpbs_styles');
-
+    
+    if (!function_exists('remove_sidebars')) {
+                  function remove_sidebars() {
+                unregister_sidebar('footer1');
+                unregister_sidebar('footer2');
+                unregister_sidebar('footer3');
+                #unregister_sidebar('sidebar1');
+                unregister_sidebar('sidebar2');
+            }
+    }
+     add_action('init', 'remove_sidebars');
     if (!function_exists('add_new_sidebars')) {
 
         function add_new_sidebars() {
-            register_sidebar(array(
-                'name' => __('Language Switch'),
-                'id' => 'languages',
-                'description' => _("... contains the Language Switch"),
-                'before_widget' => '<div id="languages-menu">',
-                'after_widget' => '</div>'
-            ));
             register_sidebar(array(
                 'name' => __('Sidebar Contact'),
                 'id' => 'contact-sidebar',
@@ -75,16 +81,41 @@ function nl_spraachen_theme_setup() {
                 'before_widget' => '<div id="contact-sidebar">',
                 'after_widget' => '</div>',
             ));
+            register_sidebar(array(
+                'name' => __('Sidebar Intern'),
+                'id' => 'intern-sidebar',
+                'description' => _('... Zeigt das Menu für eingeloggte User'),
+                'before_widget' => '<div id="%1$s" class="widget %2$s">',
+                'after_widget' => '</div>',
+            ));
         }
 
     }
     add_action('init', 'add_new_sidebars');
     
-    add_filter( 'the_content_more_link', 'modify_read_more_link' );
-function modify_read_more_link() {
-    $moreLink = __('continue reading', 'spraachen-org');
-return '<a class="more-link" href="' . get_permalink() . '">'. $moreLink .'</a>';
+    function wp_bootstrap_footer_intern() { 
+  // Display the WordPress menu if available
+  wp_nav_menu(
+    array(
+      'menu' => 'footer_intern', /* menu name */
+      'theme_location' => 'footer_intern', /* where in the theme it's assigned */
+      'container_class' => 'footer-links clearfix', /* container class */
+    )
+  );
 }
+
+    function my_login_logo() { ?>
+    <style type="text/css">
+        .login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/library/img/login-logo.png);
+            background-size:contain;
+            padding-bottom: 30px;
+            width:315px;
+            height:110px;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'my_login_logo' );
 }
 
 ?>

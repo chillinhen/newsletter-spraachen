@@ -4,8 +4,10 @@
 
         <div class="footer-links row">  
 	<div class="col-md-7 col-xs-12">
-	    <?php
+	    
+            <?php if (current_user_can('read')) : 
 	    wp_nav_menu(array('theme_location' => 'footer_links', 'menu_class' => 'menu clearfix'));
+            endif;
 	    ?>
 	</div>
 	<div class="col-md-5 col-xs-12 pull-right">
